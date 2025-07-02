@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Keyboard, Text, TextInput, TouchableOpacity, View, ScrollView,  } from 'react-native';
 import Task from './components/Task'
 import { useState } from 'react';
 
@@ -6,17 +6,24 @@ export default function App() {
   const [task,setTask]=useState();
   const [taskitems,settaskitems]=useState([]);
   
+  
   const handleAddTask=() =>{
+    Keyboard.dismiss();
+    
 
     // console.log('test');
     settaskitems([...taskitems,task])
     setTask(null);
   }
+
   const completetask=(index)=>
   {
-    let itemsCopy=[...taskitems];
-    itemsCopy.splice(index,1);
+    let itemscopy=[...taskitems];
+    itemscopy.splice(index,1);
+    settaskitems(itemscopy);
   }
+  
+  
   
 
   
@@ -27,7 +34,13 @@ export default function App() {
         <ScrollView style={styles.items}>
           {
             taskitems.map((item, index)=>{
-              return (<Task key={index} text={item}/>);
+              return (
+                <TouchableOpacity key={index} onPress={()=>completetask(index)}>
+                  <Task key={index} text={item}/>
+                </TouchableOpacity>
+              
+              );
+              
 
             })
 
